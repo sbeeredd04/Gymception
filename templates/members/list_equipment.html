@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipment List</title>
+    <!-- Include your CSS and other head elements here -->
+</head>
+<body>
+    <h1>Equipment List</h1>
+    <ul>
+        {% for eq in equipment_list %}
+            <li>
+                <h2>{{ eq.name }}</h2>
+                <p>{{ eq.description }}</p>
+                <a href="{% url 'equipment-detail' eq.id %}">View Queue</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <!-- Include your footer, scripts, and other body elements here -->
+</body>
+</html>

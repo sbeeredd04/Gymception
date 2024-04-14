@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ equipment.name }} Details</title>
+    <!-- Replace the below link with your actual stylesheet path -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="equipment-detail-container">
+        <h1>{{ equipment.name }}</h1>
+        <p>{{ equipment.description }}</p>
+
+        {% if not in_queue %}
+            <form method="post" action="{% url 'join-queue' equipment.id %}">
+                {% csrf_token %}
+                <button type="submit">Join Queue</button>
+            </form>
+        {% else %}
+            <p>You are currently in position {{ user_position }} in the queue.</p>
+        {% endif %}
+
+        <h2>Current Queue:</h2>
+        {% if queue %}
+            <ol>
+                {% for entry in queue %}
+                    <li>{{ entry.user.username }} joined at {{ entry.join_time }}</li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>No one is currently in the queue.</p>
+        {% endif %}
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- Replace the below script src with your actual script if necessary -->
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
