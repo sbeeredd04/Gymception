@@ -1,19 +1,68 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Login - Gymception</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h2>Log in</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Log in</button>
-        </form>
+    <div class="main-container">
+        <div class = "all-container">
+
+            <div class="nav-bar-container">
+
+                <div class="nav-bar-logo">
+                  <h1> <span class = "gym">Gym</span><span class = "ception">ception</span></h1>
+                </div>
+          
+                <div class="nav-bar-links">
+          
+                  <div class="dropdown">
+                    <button class="dropbtn">Menu</button>
+          
+                    <div class="dropdown-content">
+                      <a href="{% url 'home' %}">Home</a>
+                      <a href="{% url 'login' %}">Log In</a>
+                      <a href="{% url 'signup' %}">Sign Up</a>
+                    </div>
+          
+                  </div>
+              
+                </div>
+              
+            </div>
+
+            <div class="container">
+                <form method="post">
+                    {% csrf_token %}
+                    <h3>Login Here</h3>
+
+                    {{ form.non_field_errors }}
+                    
+                    <div class="input-group">
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                    </div>
+
+                    <div class="input-group">
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                    </div>
+
+                    <button type="submit" class="submit-btn">Log In</button>
+
+                    {% if form.non_field_errors %}
+                        <div class="error">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

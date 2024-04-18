@@ -6,6 +6,11 @@
     <meta charset="UTF-8">
     <title>Welcome to Gymception!</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="main-container">
@@ -22,27 +27,23 @@
 
     <div class="nav-bar-container">
 
-      <div class="nav-bar">
+      <div class="nav-bar-logo">
+        <h1> <span class = "gym">Gym</span><span class = "ception">ception</span></h1>
+      </div>
 
-        <div class="nav-bar-logo">
-          <h1> <span class = "gym">Gym</span><span class = "ception">ception</span></h1>
-        </div>
+      <div class="nav-bar-links">
 
-        <div class="nav-bar-links">
+        <div class="dropdown">
+          <button class="dropbtn">Menu</button>
 
-          <div class="dropdown">
-            <button class="dropbtn">Menu</button>
-
-            <div class="dropdown-content">
-              <a href="{% url 'home' %}">Home</a>
-              <a href="{% url 'login' %}">Log In</a>
-              <a href="{% url 'signup' %}">Sign Up</a>
-            </div>
-
+          <div class="dropdown-content">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'login' %}">Log In</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
           </div>
-      
+
         </div>
-      
+    
       </div>
     
     </div>
@@ -59,8 +60,11 @@
       </div>
 
       <div class="main-page-button-container">
-        <a href="{% url 'list-equipment' %}" class="equipment-button">Equipments</a>
+        <button onclick="window.location='{% url 'list-equipment' %}';" class="equipment-button">
+          Equipments    <i class="fa-solid fa-dumbbell"></i>
+        </button>        
       </div>
+      
 
     </div>
 
