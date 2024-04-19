@@ -88,7 +88,10 @@ from .models import Equipment
 
 def list_equipment(request):
     equipment_list = Equipment.objects.all()
+    for equipment in equipment_list:
+        equipment.min_wait_time = equipment.get_min_wait_time()
     return render(request, 'members/list_equipment.html', {'equipment_list': equipment_list})
+
 
 from django.shortcuts import get_object_or_404, render
 from .models import Equipment, EquipmentQueue

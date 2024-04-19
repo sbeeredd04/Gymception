@@ -43,7 +43,7 @@
                     <li>
                         <h3>{{ eq.name }}</h3>
                         <p>Description: {{ eq.description }}</p>
-                        <p>Minimum wait time: {{ min_wait_time }} minutes</p>
+                        <p>Minimum wait time: {{ eq.min_wait_time }} minutes</p>
                         <a href="{% url 'equipment-detail' eq.id %}">View Queue</a>
                     </li>
                 {% endfor %}
