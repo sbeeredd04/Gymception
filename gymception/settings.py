@@ -27,7 +27,8 @@ SECRET_KEY = "django-insecure-0ia3+@ggt9&1n&&p76f5h*abq&x+=((@e$z5w(dum!ma%2&)0-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#allowing all hosts
+ALLOWED_HOSTS = ["*", '172.20.10.3']
 
 
 # Application definition
@@ -130,3 +131,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+#ASGI application
+ASGI_APPLICATION = "gymception.asgi.application"
+
+#VAPID_KEYS
+VAPID_PUBLIC_KEY = "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnKPiA+31hqAjX69CiAXW6OujqN15vxxeanMCncMccxWiK7q0VfKzfw3WGs2UiH+hDH3KVJksxY00f7IYErL0Dw=="
+VAPID_PRIVATE_KEY = "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgwSaGndmGlzHHko0zmO+9a9JbOUfP8HP7pWQG+ovZo26hRANCAASco+ID7fWGoCNfr0KIBdbo66Oo3Xm/HF5qcwKdwxxzFaIrurRV8rN/DdYazZSIf6EMfcpUmSzFjTR/shgSsvQP"
+VAPID_ADMIN_EMAIL = "sbeeredd@asu.edu"
+VAPID_APPLICATION_SERVER_KEY = "BJyj4gPt9YagI1-vQogF1ujro6jdeb8cXmpzAp3DHHMVoiu6tFXys38N1hrNlIh_oQx9ylSZLMWNNH-yGBKy9A8"
