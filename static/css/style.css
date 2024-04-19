@@ -137,6 +137,23 @@ html, body {
     text-align: center;
     font-weight: bold;
 }
+.dropdown-link-button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 12px 40px;
+  font-weight: bold;
+  text-align: center;
+  display: inline;
+  cursor: pointer;
+  margin: 10px
+}
+
+.dropdown-link-button:hover {
+  background-color: #FA382C;
+}
+
+
 
 .dropdown:hover .dropdown-content {
     display: block;

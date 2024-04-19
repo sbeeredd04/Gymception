@@ -8,4 +8,5 @@ urlpatterns = [
     path('', member_views.home_view, name='home'),
     path("admin/", admin.site.urls),
     path('members/', include('members.urls')),
+    
 ]

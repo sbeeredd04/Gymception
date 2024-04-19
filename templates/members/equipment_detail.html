@@ -23,15 +23,18 @@
                   <div class="dropdown">
                     <button class="dropbtn">Menu</button>
                     <div class="dropdown-content">
-                      <a href="{% url 'home' %}">Home</a>
-                      {% if user.is_authenticated %}
-                        <a href="{% url 'profile' %}">Profile</a>
-                        <a href="{% url 'logout' %}">Log Out</a>
-                      {% else %}
-                        <a href="{% url 'login' %}">Log In</a>
-                        <a href="{% url 'signup' %}">Sign Up</a>
-                      {% endif %}
-                    </div>
+                        <a href="{% url 'home' %}">Home</a>
+                        {% if user.is_authenticated %}
+                          <a href="{% url 'profile' %}">Profile</a>
+                          <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                              {% csrf_token %}
+                              <input type="submit" value="Log Out" class="dropdown-link-button">
+                          </form>
+                        {% else %}
+                          <a href="{% url 'login' %}">Log In</a>
+                          <a href="{% url 'signup' %}">Sign Up</a>
+                        {% endif %}
+                      </div>
                   </div>
               
                 </div>

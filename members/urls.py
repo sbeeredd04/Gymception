@@ -13,5 +13,4 @@ urlpatterns = [
     path('equipment/<int:equipment_id>/join/', join_queue, name='join-queue'),
     path('profile/', views.profile_view, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
-
 ]
