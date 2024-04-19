@@ -17,7 +17,6 @@ class Equipment(models.Model):
     def get_min_wait_time(self):
         # This method will return the minimum wait time for the equipment by calculating the amount of users in the queue and multiplying it by 30 minutes
         queue_count = self.queue.count()
-        print(queue_count)
         return queue_count * 30
 
 class EquipmentQueue(models.Model):
