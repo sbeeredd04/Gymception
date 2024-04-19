@@ -1,22 +1,55 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment List</title>
-    <!-- Include your CSS and other head elements here -->
+    <title>Equipment List - Gymception</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Equipment List</h1>
-    <ul>
-        {% for eq in equipment_list %}
-            <li>
-                <h2>{{ eq.name }}</h2>
-                <p>{{ eq.description }}</p>
-                <a href="{% url 'equipment-detail' eq.id %}">View Queue</a>
-            </li>
-        {% endfor %}
-    </ul>
-    <!-- Include your footer, scripts, and other body elements here -->
+<div class="main-container">
+    <div class="all-container">
+        <div class="nav-bar-container">
+
+            <div class="nav-bar-logo">
+              <h1><span class="gym">Gym</span><span class="ception">ception</span></h1>
+            </div>
+      
+            <div class="nav-bar-links">
+      
+              <div class="dropdown">
+                <button class="dropbtn">Menu</button>
+                <div class="dropdown-content">
+                  <a href="{% url 'home' %}">Home</a>
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}">Log Out</a>
+                  {% else %}
+                    <a href="{% url 'login' %}">Log In</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                  {% endif %}
+                </div>
+              </div>
+          
+            </div>
+          
+          </div>
+
+        <div class="list-container">
+            <h2>Equipment List</h2>
+            <ul>
+                {% for eq in equipment_list %}
+                    <li>
+                        <h3>{{ eq.name }}</h3>
+                        <p>Description: {{ eq.description }}</p>
+                        <p>Minimum wait time: {{ min_wait_time }} minutes</p>
+                        <a href="{% url 'equipment-detail' eq.id %}">View Queue</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 </body>
 </html>

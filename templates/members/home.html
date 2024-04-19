@@ -9,13 +9,14 @@
     <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+    <!-- Font Awesome CDN link for backup if local files fail to load -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="main-container">
 
-  <div class="cirles-container">
+  <div class="circles-container">
     <div class="circle1" id="right"></div> <!-- Circle on the right -->
     <div class="circle2" id="bottom"></div> <!-- Circle on the bottom -->
     <div class="circle3" id="left"></div> <!-- Circle on the left -->
@@ -23,53 +24,60 @@
     <div class="circle5" id="center"></div> <!-- Circle on the center -->
   </div>
 
-  <div class = "all-container">
+  <div class="all-container">
 
     <div class="nav-bar-container">
 
       <div class="nav-bar-logo">
-        <h1> <span class = "gym">Gym</span><span class = "ception">ception</span></h1>
+        <h1><span class="gym">Gym</span><span class="ception">ception</span></h1>
       </div>
 
       <div class="nav-bar-links">
 
         <div class="dropdown">
           <button class="dropbtn">Menu</button>
-
           <div class="dropdown-content">
             <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'login' %}">Log In</a>
-            <a href="{% url 'signup' %}">Sign Up</a>
+            {% if user.is_authenticated %}
+              <a href="{% url 'profile' %}">Profile</a>
+              <a href="{% url 'logout' %}">Log Out</a>
+            {% else %}
+              <a href="{% url 'login' %}">Log In</a>
+              <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
           </div>
-
         </div>
     
       </div>
     
     </div>
 
-    <div class = "image-container">
-      <img class = "main-image" src="{% static 'Images/logo.png' %}">
+    <div class="image-container">
+      <img class="main-image" src="{% static 'Images/logo.png' %}" alt="Gymception Logo">
     </div>
 
-    <div class = "home-container">
-
-      <div class = "home-text">
-        <h1>Welcome to Gymception!</h1>
-        <p>Here at Gymception, we strive to provide you with the best workout experience possible. Our application is here to help you reach your goals. Sign up today and start your fitness journey with us!</p>
-      </div>
+    <div class="home-container">
+      {% if user.is_authenticated %}
+        <div class="welcome-text">
+          <h1>Welcome back, {{ user.username }}!</h1>
+          <p>Here at Gymception, we strive to provide you with the best workout experience possible. Our application is here to help you reach your goals. Sign up today and start your fitness journey with us!</p>
+        </div>
+      {% else %}
+        <div class="welcome-text">
+          <h1>Welcome to Gymception!</h1>
+          <p>Here at Gymception, we strive to provide you with the best workout experience possible. Our application is here to help you reach your goals. Sign up today and start your fitness journey with us!</p>
+        </div>
+      {% endif %}
 
       <div class="main-page-button-container">
         <button onclick="window.location='{% url 'list-equipment' %}';" class="equipment-button">
-          Equipments    <i class="fa-solid fa-dumbbell"></i>
+          Equipments <i class="fa-solid fa-dumbbell"></i>
         </button>        
       </div>
-      
 
     </div>
 
   </div>
-
     
 </div>
 </body>

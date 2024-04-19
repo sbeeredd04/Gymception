@@ -55,3 +55,60 @@
 .dropbtn:hover {
     background-color: #3e8e41;
 }
+
+.list-container {
+    width: 90%; /* Adjust as needed for your layout */
+    max-height: 80vh; /* Adjust based on your header/footer sizes */
+    overflow-y: scroll;
+    margin: 20px 0;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: rgba(0,0,0,0.8); /* Semi-transparent white */
+    border-radius: 10px;
+  }
+  
+  .list-container h2 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .list-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .list-container li {
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black for the box */
+    border: 1px solid #444; /* Dark border for the box */
+    border-radius: 5px;
+    margin-bottom: 10px; /* Space between boxes */
+    padding: 15px;
+    color: #ffffff; /* Text color */
+  }
+  
+  .list-container li h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  
+  .list-container li p {
+    font-size: 0.9em;
+    line-height: 1.4;
+  }
+  
+  .list-container li a {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-top: 10px;
+    background-color: #e74c3c; /* Button color */
+    color: #ffffff; /* Button text color */
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .list-container li a:hover {
+    background-color: #c0392b; /* Button hover color */
+  }

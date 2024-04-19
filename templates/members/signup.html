@@ -1,19 +1,68 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sign Up - Gymception</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <div class="container">
-        <h2>Sign up</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Sign up</button>
-        </form>
+    <div class="main-container">
+        <div class="all-container">
+            <div class="nav-bar-container">
+
+                <div class="nav-bar-logo">
+                  <h1><span class="gym">Gym</span><span class="ception">ception</span></h1>
+                </div>
+          
+                <div class="nav-bar-links">
+          
+                  <div class="dropdown">
+                    <button class="dropbtn">Menu</button>
+                    <div class="dropdown-content">
+                      <a href="{% url 'home' %}">Home</a>
+                      {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}">Profile</a>
+                        <a href="{% url 'logout' %}">Log Out</a>
+                      {% else %}
+                        <a href="{% url 'login' %}">Log In</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                      {% endif %}
+                    </div>
+                  </div>
+              
+                </div>
+              
+            </div>
+
+            <div class="signup-container">
+                <h2>Sign up</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- Display form errors here -->
+                    {% if form.non_field_errors %}
+                        <div class="error-list">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    <!-- Loop through each form field -->
+                    {% for field in form %}
+                        <div class="input-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            <!-- Display field errors here -->
+                            {% if field.errors %}
+                                <div class="error-list">
+                                    {{ field.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="submit-btn">Sign up</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

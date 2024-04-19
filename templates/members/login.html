@@ -14,20 +14,23 @@
             <div class="nav-bar-container">
 
                 <div class="nav-bar-logo">
-                  <h1> <span class = "gym">Gym</span><span class = "ception">ception</span></h1>
+                  <h1><span class="gym">Gym</span><span class="ception">ception</span></h1>
                 </div>
           
                 <div class="nav-bar-links">
           
                   <div class="dropdown">
                     <button class="dropbtn">Menu</button>
-          
                     <div class="dropdown-content">
                       <a href="{% url 'home' %}">Home</a>
-                      <a href="{% url 'login' %}">Log In</a>
-                      <a href="{% url 'signup' %}">Sign Up</a>
+                      {% if user.is_authenticated %}
+                        <a href="{% url 'profile' %}">Profile</a>
+                        <a href="{% url 'logout' %}">Log Out</a>
+                      {% else %}
+                        <a href="{% url 'login' %}">Log In</a>
+                        <a href="{% url 'signup' %}">Sign Up</a>
+                      {% endif %}
                     </div>
-          
                   </div>
               
                 </div>
@@ -37,7 +40,7 @@
             <div class="container">
                 <form method="post">
                     {% csrf_token %}
-                    <h3>Login Here</h3>
+                    <h3>Login</h3>
 
                     {{ form.non_field_errors }}
                     
