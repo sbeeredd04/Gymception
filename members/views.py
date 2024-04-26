@@ -16,17 +16,24 @@ from django.contrib.auth.decorators import login_required
 def profile_view(request):
     return render(request, 'members/profile.html', {'profile': request.user.profile})
 
+from .models import Workout
 @login_required  # Ensures the view cannot be accessed by an unauthenticated user
+
 def home_view(request):
     try:
         # Attempts to access the user's profile
         profile = request.user.profile
+        recent_workouts = Workout.objects.filter(user=request.user).order_by('-start_time')[:5]
+        context = {
+            'profile': profile,
+            'recent_workouts': recent_workouts
+        }
     except Profile.DoesNotExist:
         # If the profile does not exist, handle it by creating a new one or other logic
         profile = Profile.objects.create(user=request.user)
 
     # Always pass the profile to the template, whether newly created or existing
-    return render(request, 'members/home.html', {'profile': profile})
+    return render(request, 'members/home.html', context)
 
 
 
@@ -149,6 +156,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import PushNotificationSubscription
 import json
+from .forms import WorkoutForm
 
 @csrf_exempt
 def subscribe(request):
@@ -164,3 +172,19 @@ def subscribe(request):
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+# views.py
+
+@login_required
+def log_workout(request):
+    if request.method == 'POST':
+        form = WorkoutForm(request.POST)
+        if form.is_valid():
+            workout = form.save(commit=False)
+            workout.user = request.user
+            workout.save()
+            messages.success(request, 'Workout logged successfully.')
+            return redirect('home')
+    else:
+        form = WorkoutForm()
+    return render(request, 'members/log_workout.html', {'form': form})

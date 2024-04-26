@@ -598,3 +598,44 @@ h3 {
 .sub-button:hover {
   background-color: #e0271b;
 }
+
+.workout-list-container {
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  border-radius: 20px; /* Rounded corners */
+  padding: 20px; /* Padding inside the container */
+  margin: 30px 0; /* Space above and below the container */
+  width: 80%; /* The width relative to its parent */
+  max-width: 700px; /* Max width to prevent it from being too wide on large screens */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  color: #fff; /* White text color */
+  font-family: 'Poppins', sans-serif; /* Consistent with the other text on your page */
+  margin-top: 2rem; /* Spacing from the top */
+}
+
+.workout-list-container p {
+  color: #fff; /* White text color */
+  font-size: 1.2rem; /* Slightly larger font size */
+  margin-bottom: 20px; /* Space below the paragraph */
+}
+
+.workout-list-container ul {
+  list-style-type: none; /* No bullets */
+  padding: 0; /* No padding */
+}
+
+.workout-list-container li {
+  background-color: rgba(58, 63, 68, 0.25); /* Darker background for each list item */
+  border: 1px solid #FA382C; /* Red border */
+  border-radius: 10px; /* Rounded corners for each list item */
+  padding: 15px; /* Padding inside each list item */
+  margin-bottom: 10px; /* Space between list items */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.workout-list-container li:hover {
+  background-color: rgba(58, 63, 68, 0.5); /* Lighter background on hover */
+}
+
+.workout-list-container li strong {
+  color: #FA382C; /* Red color for strong elements to stand out */
+}

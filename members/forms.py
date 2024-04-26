@@ -11,6 +11,7 @@ class SignUpForm(UserCreationForm):
 
 from django import forms
 from .models import Profile
+from .models import Workout
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -24,3 +25,10 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
+
+# forms.py
+
+class WorkoutForm(forms.ModelForm):
+    class Meta:
+        model = Workout
+        fields = ['equipment', 'start_time', 'end_time']

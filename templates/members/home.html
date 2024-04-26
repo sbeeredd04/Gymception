@@ -75,7 +75,22 @@
       <div class="main-page-button-container">
         <button onclick="window.location='{% url 'list-equipment' %}';" class="equipment-button">
           Equipments <i class="fa-solid fa-dumbbell"></i>
-        </button>        
+        </button> 
+      </div>
+
+      <div class = "workout-list-container" > 
+        <p>Check out your recent workouts:</p>
+        <ul>
+          {% if recent_workouts %}
+            {% for workout in recent_workouts %}
+              <li>
+                <strong>{{ workout.equipment.name }}</strong> for {{ workout.duration }} on {{ workout.start_time | date:"Y-m-d H:i" }}
+              </li>
+            {% empty %}
+              <li>No recent workouts.</li>
+            {% endfor %}
+          {% endif %} 
+        </ul>
       </div>
 
     </div>
