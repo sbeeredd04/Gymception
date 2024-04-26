@@ -137,3 +137,30 @@ def profile_view(request):
         'user_form': user_form,
         'profile_form': profile_form
     })
+
+@login_required
+@require_POST
+def leave_queue(request, equipment_id):
+    EquipmentQueue.objects.filter(user=request.user, equipment_id=equipment_id).delete()
+    messages.success(request, 'You have left the queue.')
+    return redirect('equipment-detail', equipment_id=equipment_id)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import PushNotificationSubscription
+import json
+
+@csrf_exempt
+def subscribe(request):
+    if request.method == "POST":
+        try:
+            subscription_info = json.loads(request.body)
+            # Assume the user is already authenticated and available via request.user
+            subscription, created = PushNotificationSubscription.objects.update_or_create(
+                user=request.user,
+                defaults={'subscription_info': json.dumps(subscription_info)}
+            )
+            return JsonResponse({'status': 'success', 'message': 'Subscription saved.'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

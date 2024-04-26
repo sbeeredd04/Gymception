@@ -566,3 +566,35 @@ h3 {
   color: #ffffff;
   font-size: 1.5em;
 }
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 0.625rem; /* 10px */
+}
+
+.sub-button {
+  display: block;
+  width: 100%;
+  padding: 1em;
+  background-color: #Fa382c;
+  color: #fff;
+  border: none;
+  border-radius: 0.625rem; /* 10px */
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.sub-button:hover {
+  background-color: #e0271b;
+}

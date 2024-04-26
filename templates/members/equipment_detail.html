@@ -52,6 +52,10 @@
                     </form>
                 {% else %}
                     <p>You are currently in position {{ user_position }} in the queue.</p>
+                    <form method="post" action="{% url 'leave-queue' equipment.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="leave-queue-button">Leave Queue</button>
+                    </form>
                 {% endif %}
 
                 <h2>Current Queue:</h2>

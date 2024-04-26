@@ -42,7 +42,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "members",
     "fontawesomefree",
+    "django_celery_beat",
+    "push_notifications",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -112,7 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+#setting time zone to local time zone
+TIME_ZONE = "America/Phoenix"
 
 USE_I18N = True
 
@@ -143,3 +147,24 @@ VAPID_APPLICATION_SERVER_KEY = "BJyj4gPt9YagI1-vQogF1ujro6jdeb8cXmpzAp3DHHMVoiu6
 
 #login redirect
 LOGIN_URL = 'login'
+
+# gymception/settings.py
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    'remove_expired_queue_entries': {
+        'task': 'members.tasks.remove_expired_queue_entries',
+        'schedule': crontab(minute='*/1'),
+    },
+    'clear_expired_queues': {
+        'task': 'members.tasks.clear_expired_queues',
+        'schedule': crontab(minute='*/1'),
+    },
+}

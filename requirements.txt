@@ -1,3 +1,6 @@
 django
 fontawesomefree
 pywebpush
+celery
+redis
+pyfcm
