@@ -3,6 +3,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from django.urls import path
 from members.consumers import QueueConsumer
+from members.consumers import WorkoutConsumer
 
 application = ProtocolTypeRouter({
     # (http->django views is added by default)
@@ -12,3 +13,7 @@ application = ProtocolTypeRouter({
         ])
     ),
 })
+
+websocket_urlpatterns = [
+    path('ws/workouts/', WorkoutConsumer.as_asgi()),
+]

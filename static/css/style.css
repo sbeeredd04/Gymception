@@ -186,6 +186,11 @@ html, body {
     width: 80%; /* Responsive width */
     margin-bottom: 40px; /* Space below home-container */
     z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* This will vertically center the content if the parent has a specified height or enough space */
+    height: 100%; /* Adjust or remove based on your design needs */
+    width: 100%; /* Adjust or remove based on your design needs */
 }
 
 .home-container h1 {
@@ -603,24 +608,28 @@ h3 {
   background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
   border-radius: 20px; /* Rounded corners */
   padding: 20px; /* Padding inside the container */
-  margin: 30px 0; /* Space above and below the container */
-  width: 80%; /* The width relative to its parent */
+  margin: 30px auto; /* Centering the container horizontally with auto margins */
+  width: 100%; /* The width relative to its parent */
   max-width: 700px; /* Max width to prevent it from being too wide on large screens */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
   color: #fff; /* White text color */
-  font-family: 'Poppins', sans-serif; /* Consistent with the other text on your page */
-  margin-top: 2rem; /* Spacing from the top */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally inside the container */
+  text-align: center; /* Ensures text and inline elements are centered */
 }
 
 .workout-list-container p {
   color: #fff; /* White text color */
   font-size: 1.2rem; /* Slightly larger font size */
   margin-bottom: 20px; /* Space below the paragraph */
+  text-align: center; /* Center-align the text */
 }
 
 .workout-list-container ul {
   list-style-type: none; /* No bullets */
   padding: 0; /* No padding */
+  width: 100%; /* Full width of the container */
 }
 
 .workout-list-container li {
@@ -630,6 +639,7 @@ h3 {
   padding: 15px; /* Padding inside each list item */
   margin-bottom: 10px; /* Space between list items */
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  text-align: center; /* Center-align the text within each list item */
 }
 
 .workout-list-container li:hover {

@@ -14,5 +14,6 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('equipment/<int:equipment_id>/leave/', views.leave_queue, name='leave-queue'),
+    path('get-recent-workouts/', views.get_recent_workouts, name='get_recent_workouts'),
 
 ]

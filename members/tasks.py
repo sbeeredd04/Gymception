@@ -35,6 +35,7 @@ def remove_expired_queue_entries():
             subscription.send_push_notification("It's now your turn for the gym equipment!")
 
 
+
 from celery import shared_task
 from django.utils import timezone
 from datetime import timedelta

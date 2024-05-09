@@ -30,10 +30,14 @@ DEBUG = True
 #allowing all hosts
 ALLOWED_HOSTS = ["*", '172.20.10.3']
 
+#CSRF TRUSTED ORIGINS
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://localhost:8000']
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne", 
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "django_celery_beat",
     "push_notifications",
+    "channels"
 ]
 
 

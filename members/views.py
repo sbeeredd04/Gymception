@@ -108,20 +108,20 @@ def equipment_detail(request, equipment_id):
     equipment = get_object_or_404(Equipment, id=equipment_id)
     queue = EquipmentQueue.objects.filter(equipment=equipment).order_by('join_time')
     in_queue = queue.filter(user=request.user).exists()
+    user_position = None
+    if in_queue:
+        user_queue_entry = EquipmentQueue.objects.get(user=request.user, equipment=equipment)
+        user_position = list(queue).index(user_queue_entry) + 1  # Efficient indexing for position
+
     context = {
         'equipment': equipment,
         'queue': queue,
         'in_queue': in_queue,
-        'queue_count': queue.count(),
-        'user_position': None,  # Initialize with None
-        'min_wait_time': equipment.get_min_wait_time()  # Add the minimum wait time to context
+        'user_position': user_position,
+        'min_wait_time': equipment.get_min_wait_time()
     }
-    if in_queue:
-        user_queue_entry = EquipmentQueue.objects.get(user=request.user, equipment=equipment)
-        user_position = EquipmentQueue.objects.filter(equipment=equipment, join_time__lt=user_queue_entry.join_time).count() + 1
-        context['user_position'] = user_position
-
     return render(request, 'members/equipment_detail.html', context)
+
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -173,8 +173,6 @@ def subscribe(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
     return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
-# views.py
-
 @login_required
 def log_workout(request):
     if request.method == 'POST':
@@ -188,3 +186,32 @@ def log_workout(request):
     else:
         form = WorkoutForm()
     return render(request, 'members/log_workout.html', {'form': form})
+
+from django.http import JsonResponse
+
+@login_required
+def get_recent_workouts(request):
+    recent_workouts = Workout.objects.filter(user=request.user).order_by('-start_time')[:5]
+    workouts = [{
+        'id': workout.id,
+        'equipment_name': workout.equipment.name,
+        'start_time': workout.start_time.strftime("%Y-%m-%d %H:%M"),
+        'duration': str(workout.duration),
+    } for workout in recent_workouts]
+    return JsonResponse({'workouts': workouts})
+
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+from django.http import HttpResponse
+
+def send_notification(request):
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "notifications",
+        {
+            "type": "send.notification",  # matches the function in the consumer
+            "message": "<p>New notification!</p>",  # Your HTML content here
+        }
+    )
+    return HttpResponse("Notification sent!")

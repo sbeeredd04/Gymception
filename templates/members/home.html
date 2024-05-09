@@ -12,8 +12,44 @@
     <!-- Font Awesome CDN link for backup if local files fail to load -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <!-- htmx websocket-->
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js"></script>
+
 </head>
-<body>
+
+<script>
+  function updateWorkouts() {
+      fetch("{% url 'get_recent_workouts' %}")
+      .then(response => response.json())
+      .then(data => {
+          let workoutsList = document.getElementById('workouts-list');
+          workoutsList.innerHTML = '';
+          data.workouts.forEach(workout => {
+              workoutsList.innerHTML += `<li>${workout.equipment_name} for ${workout.duration} on ${workout.start_time}</li>`;
+          });
+      })
+      .catch(error => console.error('Error:', error));
+  }
+  
+  // Call updateWorkouts initially and also set it to update periodically if needed
+  updateWorkouts();
+  </script>
+
+  
+<body hx-ext="ws" ws-connect="/ws/notifications/">
+
+
+  <script>
+    const ws = new WebSocket('ws://' + window.location.host + '/ws/notifications/');
+    ws.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        const notificationArea = document.getElementById('notification-area'); // Make sure to have this div in your HTML
+        notificationArea.innerHTML += data.message; // Append new notifications
+    };
+  </script>
+  <div id="notification-area"></div>
+
 <div class="main-container">
 
   <div class="circles-container">
@@ -78,25 +114,29 @@
         </button> 
       </div>
 
-      <div class = "workout-list-container" > 
-        <p>Check out your recent workouts:</p>
+      <div class="workout-list-container">
+        <h2>Recent Workouts:</h2>
         <ul>
-          {% if recent_workouts %}
             {% for workout in recent_workouts %}
-              <li>
-                <strong>{{ workout.equipment.name }}</strong> for {{ workout.duration }} on {{ workout.start_time | date:"Y-m-d H:i" }}
-              </li>
+                <li>
+                    <a href="{% url 'equipment-detail' workout.equipment.id %}">
+                        {{ workout.equipment.name }} for {{ workout.duration }} on {{ workout.start_time|date:"Y-m-d H:i" }}
+                    </a>
+                </li>
             {% empty %}
-              <li>No recent workouts.</li>
+                <li>No recent workouts.</li>
             {% endfor %}
-          {% endif %} 
         </ul>
       </div>
+     
 
     </div>
 
   </div>
     
 </div>
+
+  <script src="{% static 'js/websocket_handler.js' %}"></script>
 </body>
+
 </html>

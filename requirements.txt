@@ -4,3 +4,6 @@ pywebpush
 celery
 redis
 pyfcm
+django-allauth
+django-extensions
+daphne
