@@ -3,14 +3,20 @@ from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.http import require_POST
-
-
-#home page view function 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Profile
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from .forms import SignUpForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.http import require_POST  # Correct import statement
+from django.contrib.auth.decorators import login_required  # This is where login_required should be imported from
+from django.contrib import messages  # Import the messages module
+from django.utils import timezone  # Import the timezone module
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages  # Make sure this import is included
+from .models import Equipment, EquipmentQueue, Workout
 
 @login_required
 def profile_view(request):
@@ -48,6 +54,7 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, 'members/signup.html', {'form': form})
 
+
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -62,22 +69,50 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'members/login.html', {'form': form})
 
-from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Equipment, EquipmentQueue
-from django.contrib import messages
-
 @login_required
 @require_POST
 def join_queue(request, equipment_id):
     equipment = get_object_or_404(Equipment, id=equipment_id)
-    # Check if the user is already in the queue
     if EquipmentQueue.objects.filter(user=request.user, equipment=equipment).exists():
         messages.error(request, 'You are already in the queue.')
+        return redirect('equipment-detail', equipment_id=equipment_id)
+
+    queue_entry = EquipmentQueue.objects.create(user=request.user, equipment=equipment)
+    queue = EquipmentQueue.objects.filter(equipment=equipment).order_by('join_time')
+    if queue.first() == queue_entry:
+        Workout.objects.create(user=request.user, equipment=equipment, start_time=timezone.now())
+        messages.success(request, 'You are first in the queue. Your workout has started.')
     else:
-        EquipmentQueue.objects.create(user=request.user, equipment=equipment)
         messages.success(request, 'You have joined the queue.')
+
     return redirect('equipment-detail', equipment_id=equipment_id)
+
+
+@login_required
+@require_POST
+def leave_queue(request, equipment_id):
+    queue_entry = get_object_or_404(EquipmentQueue, user=request.user, equipment_id=equipment_id)
+    equipment = queue_entry.equipment
+    workout = Workout.objects.filter(user=request.user, equipment=equipment, end_time__isnull=True).last()
+    if workout:
+        workout.end_time = timezone.now()
+        workout.save()
+        messages.success(request, 'Workout ended and logged.')
+    queue_entry.delete()
+    messages.success(request, 'You have left the queue.')
+    return redirect('equipment-detail', equipment_id=equipment_id)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@login_required
+def update_workout(request):
+    data = json.loads(request.body)
+    workout = Workout.objects.get(id=data['workoutId'], user=request.user)
+    workout.end_time = timezone.now()  # Update the end time to the current time
+    workout.save()
+    return JsonResponse({'status': 'success', 'message': 'Workout updated.'})
 
 
 @login_required
@@ -145,13 +180,6 @@ def profile_view(request):
         'profile_form': profile_form
     })
 
-@login_required
-@require_POST
-def leave_queue(request, equipment_id):
-    EquipmentQueue.objects.filter(user=request.user, equipment_id=equipment_id).delete()
-    messages.success(request, 'You have left the queue.')
-    return redirect('equipment-detail', equipment_id=equipment_id)
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import PushNotificationSubscription
@@ -189,16 +217,29 @@ def log_workout(request):
 
 from django.http import JsonResponse
 
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Workout
+import logging
+
+logger = logging.getLogger(__name__)
+
 @login_required
 def get_recent_workouts(request):
-    recent_workouts = Workout.objects.filter(user=request.user).order_by('-start_time')[:5]
-    workouts = [{
-        'id': workout.id,
-        'equipment_name': workout.equipment.name,
-        'start_time': workout.start_time.strftime("%Y-%m-%d %H:%M"),
-        'duration': str(workout.duration),
-    } for workout in recent_workouts]
-    return JsonResponse({'workouts': workouts})
+    try:
+        recent_workouts = Workout.objects.filter(user=request.user).order_by('-start_time')[:5]
+        workouts_data = [{
+            'id': workout.id,
+            'equipment_name': workout.equipment.name if workout.equipment else "No Equipment",
+            'start_time': workout.start_time.strftime("%Y-%m-%d %H:%M"),
+            'duration': str(workout.duration),
+        } for workout in recent_workouts]
+
+        return JsonResponse({'workouts': workouts_data})
+    except Exception as e:
+        logger.error(f"Failed to retrieve workouts: {e}")
+        return JsonResponse({'status': 'error', 'message': 'Failed to retrieve workouts'}, status=500)
+
 
 
 from asgiref.sync import async_to_sync

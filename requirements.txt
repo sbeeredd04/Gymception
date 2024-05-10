@@ -7,3 +7,4 @@ pyfcm
 django-allauth
 django-extensions
 daphne
+channels_redis

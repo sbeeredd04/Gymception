@@ -17,25 +17,6 @@
     <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/ws.js"></script>
 
 </head>
-
-<script>
-  function updateWorkouts() {
-      fetch("{% url 'get_recent_workouts' %}")
-      .then(response => response.json())
-      .then(data => {
-          let workoutsList = document.getElementById('workouts-list');
-          workoutsList.innerHTML = '';
-          data.workouts.forEach(workout => {
-              workoutsList.innerHTML += `<li>${workout.equipment_name} for ${workout.duration} on ${workout.start_time}</li>`;
-          });
-      })
-      .catch(error => console.error('Error:', error));
-  }
-  
-  // Call updateWorkouts initially and also set it to update periodically if needed
-  updateWorkouts();
-  </script>
-
   
 <body hx-ext="ws" ws-connect="/ws/notifications/">
 
@@ -135,6 +116,40 @@
   </div>
     
 </div>
+
+<script>
+  function updateWorkout() {
+      fetch('/members/update_workout/', {
+          method: 'POST',
+          headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({workoutId: '{{ workout.id }}'})
+      })
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
+  // Example to update every 15 minutes
+  setInterval(updateWorkout, 900000);
+
+  function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+              const cookie = cookies[i].trim();
+              if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                  break;
+              }
+          }
+      }
+      return cookieValue;
+  }
+</script>
+
 
   <script src="{% static 'js/websocket_handler.js' %}"></script>
 </body>

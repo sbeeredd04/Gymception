@@ -71,13 +71,11 @@ class PushNotificationSubscription(models.Model):
     
 class Workout(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='workouts')
-    equipment = models.ForeignKey(Equipment, on_delete=models.SET_NULL, null=True, related_name='workouts')
+    equipment = models.ForeignKey('Equipment', on_delete=models.SET_NULL, null=True, related_name='workouts')
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    
-    @property
-    def duration(self):
-        return self.end_time - self.start_time
+    end_time = models.DateTimeField(null=True, blank=True)  # Allow null
 
     def __str__(self):
-        return f"{self.user.username} workout on {self.equipment.name} for {self.duration}"
+        duration = "Ongoing" if self.end_time is None else str(self.end_time - self.start_time)
+        return f"{self.user.username}'s workout on {self.equipment.name} for {duration}"
+

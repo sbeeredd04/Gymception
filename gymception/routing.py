@@ -1,19 +1,19 @@
-# gymception/routing.py
-from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-from django.urls import path
-from members.consumers import QueueConsumer
-from members.consumers import WorkoutConsumer
+from channels.routing import ProtocolTypeRouter, URLRouter
+from django.urls import re_path
+from members.consumers import QueueConsumer, WorkoutConsumer
+
+# Define WebSocket URL patterns
+websocket_urlpatterns = [
+    re_path(r'^ws/queue/$', QueueConsumer.as_asgi(), name='queue'),
+    re_path(r'^ws/workouts/$', WorkoutConsumer.as_asgi(), name='workouts'),
+]
 
 application = ProtocolTypeRouter({
-    # (http->django views is added by default)
+    # HTTP->Django views is added by default
     'websocket': AuthMiddlewareStack(
-        URLRouter([
-            path('ws/queue/', QueueConsumer.as_asgi()),
-        ])
+        URLRouter(
+            websocket_urlpatterns
+        )
     ),
 })
-
-websocket_urlpatterns = [
-    path('ws/workouts/', WorkoutConsumer.as_asgi()),
-]
