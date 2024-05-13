@@ -1,114 +1,651 @@
+/* Reset margins and padding to ensure consistency across browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: #fff;
+    min-height: 100vh;
+    background-color: #000;
+    position: relative; /* Important for positioning the pseudo-element */
+    overflow: hidden; /* Ensures the pseudo-element does not overflow the container */
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 1; /* Higher z-index to ensure content stacks on top */
+}
 
+.main-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../Images/gym.jpeg'); /* Update the path as per your folder structure */
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -2; /* Lower z-index so the content goes on top */
+}
+
+.main-container > * {
+  position: relative;
+}
+
+.all-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 96vh;
+    width: 96%;
+    max-width: 1000px; /* Maximum width of the container to avoid too wide a layout on large screens */
+    background-color: rgba(0, 0, 0, 0.80);
+    border-radius: 100px;
+    margin: 3vh auto; /* Centering the all-container */
+    z-index: 1; /* Higher z-index to ensure content stacks on top */
+    padding: 2.5%; 
+}
+
+/* Add this class to ensure content inside .all-container is not blurred */
+.all-container * {
+  backdrop-filter: none; /* This ensures only the background is blurred, not the content */
+}
+
+.nav-bar-container {
+  width: calc(100% - 20px); /* Adjust the width to account for padding */
+  max-width: 96%; /* Ensure it doesn't exceed the .all-container */
+  padding: 32px;
+  margin: 20px auto; /* Center the navbar within the .all-container */
+  background-color: rgba(0, 0, 0, 0.80);
+  color: #fff;
+  border-radius: 50px; /* Adjusted for a more subtle curvature */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box; /* Include padding in the width calculation */
+  margin-top: 4rem; 
+  z-index: 10;
+  border-color: #FA382C;
+}
+
+.nav-bar-logo {
+  font-size: 1.25rem; /* Responsive font size */
+  font-weight: bold;
+}
+
+.nav-bar-logo h1 {
+  display: flex;
+  align-items: center;
+  margin-right: auto; /* Ensures the logo stays on the left */
+}
+
+.nav-bar-links {
+  display: flex; /* This will align the menu button to the right */
+  align-items: center;
+  margin-left: auto; /* This will push the .nav-bar-links to the far right */
+}
+
+.gym {
+  color: #FA382C;
+}
+
+.ception {
+  color: #fff;
+}
+
+.dropdown {
+  position: relative;
 }
 
 .dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
+  background-color: #FA382C;
+  color: white;
+  font-weight: bold;
+  padding: 20px 60px;
+  font-size: 1rem; /* Responsive font size */
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  margin-left: auto; /* This will push the menu button to the right side */
 }
-  
-/* Container for the dropdown content */
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-  
-/* Dropdown content */
+
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
+    background-color: #000;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 3;
+    border-radius: 10px; /* Added border-radius for style consistency */
+    font-weight: bold;
 }
-  
-/* Links inside the dropdown */
+
 .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
+    padding: 12px 40px;
     text-decoration: none;
     display: block;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
 }
-  
-/* Show the dropdown content on hover */
+.dropdown-link-button {
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 12px 40px;
+  font-weight: bold;
+  text-align: center;
+  display: inline;
+  cursor: pointer;
+  margin: 10px
+}
+
+.dropdown-link-button:hover {
+  background-color: #FA382C;
+}
+
+
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
-  
-/* Change the background color of the dropdown links on hover */
+
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-  
-/* Change the background color of the dropbtn on hover */
-.dropbtn:hover {
-    background-color: #3e8e41;
+    background-color: #FA382C;
+    color: #fff;
 }
 
-.list-container {
-    width: 90%; /* Adjust as needed for your layout */
-    max-height: 80vh; /* Adjust based on your header/footer sizes */
-    overflow-y: scroll;
-    margin: 20px 0;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: rgba(0,0,0,0.8); /* Semi-transparent white */
-    border-radius: 10px;
-  }
-  
-  .list-container h2 {
-    color: #ffffff;
+
+.image-container {
+    width: 90%; /* Adjusted for responsiveness */
+    display: flex;
+    justify-content: center;
+}
+
+.image-container img {
+    max-width: 100%; /* Ensure the image is responsive */
+    height: auto;
+    border-radius: 50%;
+}
+
+.home-container {
     text-align: center;
-    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.80);
+    padding: 5%;
+    border-radius: 50px;
+    margin-top: 20px; /* Space above home-container */
+    width: 80%; /* Responsive width */
+    margin-bottom: 40px; /* Space below home-container */
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* This will vertically center the content if the parent has a specified height or enough space */
+    height: 100%; /* Adjust or remove based on your design needs */
+    width: 100%; /* Adjust or remove based on your design needs */
+    flex-direction: column; /* Align content vertically */
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.home-container h1 {
+    color: #FA382C;
+    font-size: 2.5rem; /* Responsive font size */
+    margin-bottom: 0.5rem;
+}
+
+.home-container p {
+    color: #fff;
+    font-size: 1.5rem; /* Responsive font size */
+    margin-top: 0.5rem;
+}
+
+/* Media Queries for smaller devices */
+@media (max-width: 768px) {
+  .nav-bar-logo {
+    font-size: 1rem; /* Smaller font size on smaller screens */
   }
   
-  .list-container ul {
-    list-style: none;
-    padding: 0;
+  .dropbtn {
+    padding: 5px 20px;
+    font-size: 0.9rem; /* Smaller font size on smaller screens */
   }
-  
-  .list-container li {
-    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black for the box */
-    border: 1px solid #444; /* Dark border for the box */
-    border-radius: 5px;
-    margin-bottom: 10px; /* Space between boxes */
-    padding: 15px;
-    color: #ffffff; /* Text color */
+
+  .home-container h1 {
+    font-size: 2rem; /* Smaller font size on smaller screens */
   }
-  
-  .list-container li h3 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
+
+  .home-container p {
+    font-size: 1rem; /* Smaller font size on smaller screens */
   }
-  
-  .list-container li p {
-    font-size: 0.9em;
-    line-height: 1.4;
+}
+
+/* Additional media query for very small devices */
+@media (max-width: 480px) {
+  .image-container {
+    width: 80%; /* Increase width percentage for smaller devices */
   }
-  
-  .list-container li a {
-    display: inline-block;
-    padding: 8px 15px;
-    margin-top: 10px;
-    background-color: #e74c3c; /* Button color */
-    color: #ffffff; /* Button text color */
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: background-color 0.3s ease;
+}
+
+.main-page-button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 40px;
+}
+
+/* ... Existing CSS ... */
+
+/* CSS for Equipment Button with Red Glowing Effect */
+.equipment-button {
+  --glow-color: rgb(250, 56, 44); /* Updated to red */
+  --glow-spread-color: rgba(250, 56, 44, 0.6); /* Updated to a lighter red with transparency */
+  --enhanced-glow-color: rgb(255, 102, 94); /* Lighter red for an enhanced glow effect */
+  --btn-color: rgb(205, 32, 31, 0.25);
+  border: .25em solid var(--glow-color);
+  padding: 1em 3em;
+  color: #ffdddd;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: var(--btn-color);
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0 0.5em .25em var(--glow-color), /* Reduced the glow size */
+         0 0 2em 1em var(--glow-spread-color), /* Reduced the glow spread */
+         inset 0 0 .5em .25em var(--glow-color); /* Slightly reduced the inner glow */
+  text-shadow: 0 0 .25em var(--glow-color); /* Reduced the text glow */
+  position: relative;
+  transition: all 0.3s;
+ }
+ 
+ .equipment-button::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 120%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--glow-spread-color);
+  filter: blur(1.5em); /* Reduced the blur for a tighter glow */
+  opacity: .6; /* Slightly less transparent for a more subtle effect */
+  transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+ }
+ 
+ .equipment-button:hover {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 0 0 0.75em .25em var(--glow-color), /* Increased glow for hover */
+         0 0 3em 1.5em var(--glow-spread-color), /* Increased spread for hover */
+         inset 0 0 .5em .25em var(--glow-color);
+ }
+ 
+ .equipment-button:active {
+  box-shadow: 0 0 0.4em .25em var(--glow-color), /* Tightened active state glow */
+         0 0 2em 1.5em var(--glow-spread-color), /* Reduced spread on active state */
+         inset 0 0 .5em .25em var(--glow-color);
+ }
+
+ @keyframes rotBGimg {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .list-container li a:hover {
-    background-color: #c0392b; /* Button hover color */
+  to {
+    transform: rotate(360deg);
   }
+}
+
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: -110%; left: 40%;
+  width: 20%; height: 2000px; /* Large enough to cover the entire area even when rotated */
+  background-image: linear-gradient(180deg, #Fa382c, #fff);
+  animation: rotBGimg 6s linear infinite;
+  z-index: -1;
+  border-radius: 100px; /* Adjusted to match the border-radius of the containers */
+}
+
+.home-container::after {
+  content: '';
+  position: absolute;
+  top: 5px; right: 5px; bottom: 5px; left: 5px;
+  background: #000;
+  border-radius: 8%;
+  z-index: -1;
+}
+
+.container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 0.625rem; /* 10px */
+  padding: 2rem; /* 30px */
+  width: 90%; /* Full width for smaller screens */
+  box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  margin-top: 2rem; /* 30px */
+}
+
+h3 {
+  font-size: 3rem; /* Increased font size */
+  text-align: center;
+  margin-bottom: 2rem; /* 30px */
+}
+
+.input-group {
+  margin-bottom: 2rem; /* 30px */
+}
+
+.input-group label {
+  font-size: 1.5rem; /* Increased font size for labels */
+  display: block;
+  margin-bottom: 0.5rem; /* 8px */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 1.25rem; /* 20px */
+  font-size: 1.5rem; /* Increased font size for inputs */
+  border-radius: 0.3125rem; /* 5px */
+  background-color: #fff;
+  border: 0.3125rem solid #000; /* 5px */
+  color: #000;
+}
+
+.submit-btn {
+  background-color: #FA382C;
+  color: #ffffff;
+  border: none;
+  padding: 1.5rem 0; /* Increased padding for a taller button */
+  font-size: 1.5rem; /* Increased font size for button */
+  border-radius: 0.3125rem; /* 5px */
+  width: 100%;
+  cursor: pointer;
+  margin-top: 2rem; /* 20px */
+}
+
+/* Media Queries for Larger Screens */
+@media (min-width: 48rem) { /* 768px */
+  .container {
+    padding: 3rem; /* 50px */
+    max-width: 35rem; /* Increased max width */
+  }
+
+  h3 {
+    font-size: 4rem; /* Increased font size */
+    margin-bottom: 2.5rem; /* 40px */
+  }
+
+  .input-group label {
+    font-size: 2rem; /* Increased font size for labels */
+  }
+
+  .input-group input {
+    padding: 1.5rem; /* 20px */
+    font-size: 2rem; /* Increased font size for inputs */
+  }
+
+  .submit-btn {
+    padding: 2rem 0; /* Increased padding for a taller button */
+    font-size: 2rem; /* Increased font size for button */
+  }
+
+  .social-link {
+    font-size: 1.5rem; /* Increased font size for social icons */
+    padding: 0.75rem; /* 12px */
+  }
+}
+
+/* Specific styles for the signup form to match the login form */
+.signup-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 40px;
+  width:80%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  position: relative;
+  z-index: 2;
+  margin-top: 2rem; /* Spacing from the top */
+}
+
+/* Style for signup form heading */
+.signup-container h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Style for the signup button to match the login button */
+.signup-container button {
+  background-color: #FA382C;
+  color: #ffffff;
+  border: none;
+  padding: 30px 0;
+  font-size: 2rem;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* Error messages and conditions style to match the login form */
+.error-list {
+  background-color: #f8d7da; /* Light red/pink background for error message */
+  color: #721c24; /* Dark red text for error message */
+  border-color: #f5c6cb; /* Light red border for error message */
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+
+.list-container {
+  width: 90%; /* Adjust as needed for your layout */
+  max-height: 80vh; /* Adjust based on your header/footer sizes */
+  overflow-y: scroll;
+  margin: 20px 0;
+  padding: 40px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgba(0,0,0,0.8); /* Semi-transparent white */
+  border-radius: 50px;
+}
+
+.list-container h2 {
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.list-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.list-container li {
+  background: rgba(0, 0, 0, 0.3); /* Semi-transparent black for the box */
+  border: 2.5px solid #444; /* Dark border for the box */
+  border-radius: 5px;
+  margin-bottom: 10px; /* Space between boxes */
+  padding: 40px;
+  color: #ffffff; /* Text color */
+}
+
+.list-container li h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #FA382C;
+}
+
+.list-container li p {
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.list-container li a {
+  display: inline-block;
+  padding: 8px 15px;
+  margin-top: 20px;
+  background-color: #e74c3c; /* Button color */
+  color: #ffffff; /* Button text color */
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.list-container li a:hover {
+  background-color: #c0392b; /* Button hover color */
+}
+
+.equipment-detail-container {
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
+  border-radius: 5px;
+  padding: 20px;
+  width: 80%; /* Adjust based on container size */
+  max-width: 600px; /* Adjust for maximum width as needed */
+  margin: 30px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #ffffff; /* Text color for light theme */
+}
+
+.equipment-detail-container h1 {
+  font-size: 2em; /* Larger font for main heading */
+  color: #e74c3c; /* Red color for the equipment name */
+  margin-bottom: 10px;
+}
+
+.equipment-detail-container p {
+  font-size: 1em;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.equipment-detail-container form {
+  margin-bottom: 20px;
+}
+
+.equipment-detail-container button {
+  background-color: #4CAF50; /* Green color for the button */
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.equipment-detail-container button:hover {
+  background-color: #449d44; /* Darker green on hover */
+}
+
+.equipment-detail-container ol {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 20px;
+}
+
+.equipment-detail-container li {
+  background: rgba(0, 0, 0, 0.3); /* Semi-transparent black for list items */
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.equipment-detail-container h2 {
+  color: #ffffff;
+  font-size: 1.5em;
+}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 0.625rem; /* 10px */
+}
+
+.sub-button {
+  display: block;
+  width: 100%;
+  padding: 1em;
+  background-color: #Fa382c;
+  color: #fff;
+  border: none;
+  border-radius: 0.625rem; /* 10px */
+  cursor: pointer;
+  margin-top: 1em;
+}
+
+.sub-button:hover {
+  background-color: #e0271b;
+}
+
+.workout-list-container {
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  border-radius: 20px; /* Rounded corners */
+  padding: 20px; /* Padding inside the container */
+  margin: 30px auto; /* Centering the container horizontally with auto margins */
+  width: 100%; /* The width relative to its parent */
+  max-width: 700px; /* Max width to prevent it from being too wide on large screens */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  color: #fff; /* White text color */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally inside the container */
+  text-align: center; /* Ensures text and inline elements are centered */
+}
+
+.workout-list-container p {
+  color: #fff; /* White text color */
+  font-size: 1.2rem; /* Slightly larger font size */
+  margin-bottom: 20px; /* Space below the paragraph */
+  text-align: center; /* Center-align the text */
+}
+
+.workout-list-container ul {
+  list-style-type: none; /* No bullets */
+  padding: 0; /* No padding */
+  width: 100%; /* Full width of the container */
+}
+
+.workout-list-container li {
+  background-color: rgba(58, 63, 68, 0.25); /* Darker background for each list item */
+  border: 1px solid #FA382C; /* Red border */
+  border-radius: 10px; /* Rounded corners for each list item */
+  padding: 15px; /* Padding inside each list item */
+  margin-bottom: 10px; /* Space between list items */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  text-align: center; /* Center-align the text within each list item */
+}
+
+.workout-list-container li:hover {
+  background-color: rgba(58, 63, 68, 0.5); /* Lighter background on hover */
+}
+
+.workout-list-container li strong {
+  color: #FA382C; /* Red color for strong elements to stand out */
+}
