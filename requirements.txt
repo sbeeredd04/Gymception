@@ -25,4 +25,3 @@ uvicorn
 dj_database_url
 django-environ
 psycopg2-binary
-psycogp
