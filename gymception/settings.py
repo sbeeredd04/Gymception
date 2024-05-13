@@ -92,21 +92,21 @@ WSGI_APPLICATION = "gymception.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'root',  # Change this if 'root' is not the actual database name
-        'USER': 'root',
-        'PASSWORD': '15LvfFBFpnfTSfsCWeFvqTgoXFqTmrIb',
-        'HOST': '5rka11.stackhero-network.com',
-        'PORT': '3306',  # Default port for MySQL; adjust if different
-        'OPTIONS': {
-            'ssl': {
-                'ca': '/workspaces/Gymception/ca.pem',
-                'cert': '/workspaces/Gymception/client-cert.pem',
-                'key': '/workspaces/Gymception/client-key.pem'
-            }
-        }
+    'default': dj_database_url.config(
+        default=os.getenv('STACKHERO_MYSQL_DATABASE_URL'),
+        conn_max_age=600,
+        ssl_require=True
+    )
+}
+
+DATABASES['default']['OPTIONS'] = {
+    'ssl': {
+        'ca': '/workspaces/Gymception/ca.pem',
+        'cert': '/workspaces/Gymception/client-cert.pem',
+        'key': '/workspaces/Gymception/client-key.pem'
     }
 }
 
