@@ -23,3 +23,6 @@ mysqlclient==2.0.3
 pywebpush
 uvicorn
 dj_database_url
+django-environ
+psycopg2-binary
+psycogp

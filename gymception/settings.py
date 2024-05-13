@@ -91,25 +91,19 @@ WSGI_APPLICATION = "gymception.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-
-import dj_database_url
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('STACKHERO_MYSQL_DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'HOST': 'x7u6lh.stackhero-network.com',
+    'PORT': 8395,
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+    'NAME': 'admin',
+    'USER': 'admin',
+    'PASSWORD': 'jFJDGk377jXUdYfvQ184X7OQNxLJhMS2'
+  }
 }
-
-DATABASES['default']['OPTIONS'] = {
-    'ssl': {
-        'ca': '/workspaces/Gymception/ca.pem',
-        'cert': '/workspaces/Gymception/client-cert.pem',
-        'key': '/workspaces/Gymception/client-key.pem'
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -198,5 +192,4 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
 django_heroku.settings(locals())
