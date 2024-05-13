@@ -92,18 +92,18 @@ WSGI_APPLICATION = "gymception.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'HOST': 'x7u6lh.stackhero-network.com',
-    'PORT': 8395,
-    'OPTIONS': {
-      'sslmode': 'require',
-    },
-    'NAME': 'admin',
-    'USER': 'admin',
-    'PASSWORD': 'jFJDGk377jXUdYfvQ184X7OQNxLJhMS2'
-  }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'admin',
+        'USER': 'admin',
+        'PASSWORD': 'jFJDGk377jXUdYfvQ184X7OQNxLJhMS2',
+        'HOST': 'x7u6lh.stackhero-network.com',
+        'PORT': 8395,
+        'CONN_MAX_AGE': 600,  # 10 minutes
+    }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
