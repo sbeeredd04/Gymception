@@ -1,0 +1,26 @@
+# Bytecode
+*.pyc
+__pycache__/
+
+# Static files that are collected
+staticfiles/
+
+# Local development files
+db.sqlite3
+.dump.rdb
+
+# Virtual environment
+venv/
+
+# Logs and datasets
+*.log
+*.csv
+*.json
+
+# Private keys and secure files
+private_key.pem
+public_key.pem
+
+# Miscellaneous
+README.md
+*.txt
