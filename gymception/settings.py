@@ -162,16 +162,15 @@ VAPID_APPLICATION_SERVER_KEY = "BJyj4gPt9YagI1-vQogF1ujro6jdeb8cXmpzAp3DHHMVoiu6
 #login redirect
 LOGIN_URL = 'login'
 
-# gymception/settings.py
-
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_ACCEPT_CONTENT = ['json']
+# Celery Configuration
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
+# Celery Beat Schedule
 from celery.schedules import crontab
-
 CELERY_BEAT_SCHEDULE = {
     'remove_expired_queue_entries': {
         'task': 'members.tasks.remove_expired_queue_entries',
@@ -183,16 +182,6 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-import os
-
-# Setting the broker URL for Celery to the Redis URL from Heroku environment
-CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-
-
 # Channel Layers Configuration for Django Channels
 CHANNEL_LAYERS = {
     'default': {
@@ -203,4 +192,5 @@ CHANNEL_LAYERS = {
     },
 }
 
+# Apply Django-Heroku settings
 django_heroku.settings(locals())
