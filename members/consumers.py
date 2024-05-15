@@ -36,6 +36,7 @@ class WorkoutConsumer(AsyncWebsocketConsumer):
     This consumer might be used for handling real-time workout data or commands.
     """
     async def connect(self):
+        print("Attempting to connect to WorkoutConsumer")
         await self.accept()
 
     async def disconnect(self, close_code):

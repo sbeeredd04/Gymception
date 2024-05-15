@@ -183,13 +183,24 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-# Configure the Channel Layer
+import os
+
+# Setting the broker URL for Celery to the Redis URL from Heroku environment
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+
+# Channel Layers Configuration for Django Channels
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],  # Assuming Redis is running on localhost and default port
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         },
     },
 }
+
 django_heroku.settings(locals())
