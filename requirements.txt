@@ -17,7 +17,7 @@ fonttools==4.50.0
 google-auth==2.29.0
 pyfcm==1.5.4
 redis==5.0.4
-requests==2.31.0
+requests==2.32.2
 websocket-client==1.7.0
 pywebpush
 uvicorn
